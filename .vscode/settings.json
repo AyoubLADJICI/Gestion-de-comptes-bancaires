@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "*.dpf": "yaml",
-        "*.c": "c",
-        "test.C": "cpp",
-        "string.h": "c"
-    }
-}
