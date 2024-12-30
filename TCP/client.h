@@ -20,7 +20,6 @@ typedef struct in_addr IN_ADDR;
 #define PORT     1977
 #define BUF_SIZE 1024
 
-// 🧑‍💻 Structure Client (optionnelle, selon les besoins du client)
 typedef struct Client_t {
     SOCKET sock;             // Socket du client
     struct sockaddr_in addr; // Adresse du client
