@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <time.h>
 #include "client.h"
 
 static void init(void) {
@@ -24,6 +23,7 @@ static void client_app(const char *address, const char *name) {
    write_server(sock, &sin, name);
 
    while(1) {
+      /* clear the set rfds */
       FD_ZERO(&rdfs);
 
       /* add STDIN_FILENO */
@@ -68,8 +68,10 @@ static int client_init_connection(const char *address, SOCKADDR_IN *sin) {
    /* UDP so SOCK_DGRAM */
    SOCKET sock = socket(AF_INET, SOCK_DGRAM, 0);
    struct hostent *hostinfo;
+   printf("✅ Socket créé avec succès. Descripteur du socket : %d\n", sock);
 
    if(sock == INVALID_SOCKET) {
+      printf("🛑 Le Socket n'a pas pu être créé.\n");
       perror("socket()");
       exit(errno);
    }
@@ -83,7 +85,6 @@ static int client_init_connection(const char *address, SOCKADDR_IN *sin) {
    sin->sin_addr = *(IN_ADDR *) hostinfo->h_addr;
    sin->sin_port = htons(PORT);
    sin->sin_family = AF_INET;
-
    return sock;
 }
 

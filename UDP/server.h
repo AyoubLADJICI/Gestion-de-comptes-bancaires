@@ -36,8 +36,8 @@ typedef struct {
     char id_compte[BUF_SIZE];
     char password[BUF_SIZE];
     int solde;
-    int nb_operations;
     Operation operations[10];
+    int nb_operations;
 } Compte;
 
 // Prototypes supplémentaires

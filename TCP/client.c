@@ -37,8 +37,9 @@ static void client_app(const char *address, const char *name) {
       FD_SET(sock, &rdfs);
 
       //select va surveiller tous les descripteurs de fichiers de l'ensemble rfds
-      //toutefois elle ne surveille par les ecritures et les exceptions
-      //pas de timeout
+      //donc si des donnees arrivent sur le socket ou s'il y a une entree clavier detectee, select va retourner un entier positif
+      //toutefois elle ne surveille par les descripteurs en ecriture et les exceptions
+      //pas de timeout spécifié ici
       //le programme est bloqué jusqu'à ce qu'un evenement se produise comme une entrée clavier detectee ou bien une reception de donnees 
       if(select(sock + 1, &rdfs, NULL, NULL, NULL) == -1) {
          perror("select()");
@@ -111,7 +112,6 @@ static int client_init_connection(const char *address) {
    }else {
       printf("✅ Connexion établie avec le serveur !\n");
    }
-
    return sock;
 }
 
@@ -121,14 +121,11 @@ static void end_connection(int sock) {
 
 static int read_server(SOCKET sock, char *buffer) {
    int n = 0;
-
    if((n = recv(sock, buffer, BUF_SIZE - 1, 0)) < 0) {
       perror("recv()");
       exit(errno);
    }
-
    buffer[n] = 0;
-
    return n;
 }
 
@@ -144,12 +141,8 @@ int main(int argc, char **argv) {
       printf("Usage : %s [address] [pseudo]\n", argv[0]);
       return EXIT_FAILURE;
    }
-
    init();
-
    client_app(argv[1], argv[2]);
-
    end();
-
    return EXIT_SUCCESS;
 }

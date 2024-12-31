@@ -23,7 +23,7 @@ static void server_app(void) {
    };
 
    SOCKET sock = server_init_connection();
-   printf("🟢 Serveur en écoute sur le port %d...\n", PORT);
+   printf("🟢 Serveur TCP en écoute sur le port %d...\n", PORT);
    char buffer[BUF_SIZE];
    /* the index for the array */
    int actual = 0;
@@ -35,6 +35,7 @@ static void server_app(void) {
 
    while(1) {
       int i = 0;
+      /*clear the set rdfs*/
       FD_ZERO(&rdfs);
 
       /* add STDIN_FILENO */
@@ -56,6 +57,7 @@ static void server_app(void) {
       /* something from standard input : i.e keyboard */
       if(FD_ISSET(STDIN_FILENO, &rdfs)) {
          /* stop process when type on keyboard */
+         printf("🛑 Arrêt du serveur via le clavier.\n");
          break;
       }else if(FD_ISSET(sock, &rdfs)) {
          /* new client */
@@ -147,7 +149,7 @@ static void traiter_commande(Client *client, Compte *comptes, int nb_comptes, co
     char requete[10], id_client[BUF_SIZE], id_compte[BUF_SIZE], password[BUF_SIZE];
     int somme;
 
-    // Découpage de la commande
+    //Decoupage de la commande
     sscanf(commande, "%s %s %s %s %d", requete, id_client, id_compte, password, &somme);
 
     if (strcmp(requete, "AJOUT") == 0) {
@@ -155,14 +157,14 @@ static void traiter_commande(Client *client, Compte *comptes, int nb_comptes, co
             //On verifie si les informations de la requete du client correpondent bien à un compte existant
             if (strcmp(comptes[i].id_client, id_client) == 0 && strcmp(comptes[i].id_compte, id_compte) == 0 && strcmp(comptes[i].password, password) == 0) {
                 comptes[i].solde += somme;
-                //Ajouter une nouvelle opération
+                //Ajouter une nouvelle operation (AJOUT)
                 if (comptes[i].nb_operations < 10) {
                     strcpy(comptes[i].operations[comptes[i].nb_operations].type_operation, "AJOUT");
                     obtenir_date_heure(comptes[i].operations[comptes[i].nb_operations].date_operation, 50);
                     comptes[i].operations[comptes[i].nb_operations].montant_operation = somme;
                     comptes[i].nb_operations++;
-                } else {
-                    //Décaler les opérations si le tableau est plein
+                }else {
+                    //Decaler les opérations si le tableau est plein
                     for (int j = 1; j < 10; j++) {
                         comptes[i].operations[j - 1] = comptes[i].operations[j];
                     }
@@ -170,7 +172,7 @@ static void traiter_commande(Client *client, Compte *comptes, int nb_comptes, co
                     obtenir_date_heure(comptes[i].operations[9].date_operation, 50);
                     comptes[i].operations[9].montant_operation = somme;
                 }
-                //Répondre au client
+                //Repondre au client
                 write_client(client->sock, "OK");
                 printf("✅ AJOUT réussi : %d€ viennent d'être ajoutées au compte %s\n", somme, id_compte);
                 return;
@@ -191,22 +193,22 @@ static void traiter_commande(Client *client, Compte *comptes, int nb_comptes, co
                            obtenir_date_heure(comptes[i].operations[comptes[i].nb_operations].date_operation, 50);
                            comptes[i].operations[comptes[i].nb_operations].montant_operation = -somme;
                            comptes[i].nb_operations++;
-                     } else {
+                     }else {
                            //Decaler les opérations si le tableau est plein
                            for (int j = 1; j < 10; j++) {
                               comptes[i].operations[j - 1] = comptes[i].operations[j];
                            }
                            strncpy(comptes[i].operations[9].type_operation, "RETRAIT", 50);
                            obtenir_date_heure(comptes[i].operations[9].date_operation, 50);
-                           comptes[i].operations[9].montant_operation = somme;
+                           comptes[i].operations[9].montant_operation = -somme;
                      }
                      //Répondre au client
-                     write_client(client->sock, "OK");
+                     write_client(client->sock, "OK\n");
                      printf("✅ RETRAIT réussi : %d€ viennent d'être retirées du compte %s\n", somme, id_compte);
                      return;
                   } else {
                      //Répondre au client
-                     write_client(client->sock, "KO"); 
+                     write_client(client->sock, "KO\n"); 
                      printf("❌ RETRAIT échoué : solde insuffisant\n");
                      printf("%s, votre solde est de %d€, vous ne pouvez pas retirer %d€\n",id_client, comptes[i].solde, somme);
                      return;
@@ -220,7 +222,6 @@ static void traiter_commande(Client *client, Compte *comptes, int nb_comptes, co
          for (int i = 0; i < nb_comptes; i++) {
                //On verifie si les informations de la requete du client correpondent bien a un compte existant
                if (strcmp(comptes[i].id_client, id_client) == 0 && strcmp(comptes[i].id_compte, id_compte) == 0 && strcmp(comptes[i].password, password) == 0) {
-
                   //On verifie si le client a effectué des opérations
                   char derniere_operation[50];
                   if (comptes[i].nb_operations > 0) {
@@ -253,8 +254,8 @@ static void traiter_commande(Client *client, Compte *comptes, int nb_comptes, co
                   return;
             }
          }
-         write_client(client->sock, "KO");
-         printf("❌ Authentification incorrecte pour OPERATIONS\n");
+         write_client(client->sock, "KO\n");
+         printf("❌ Authentification incorrecte\n");
     }
 
 }  
