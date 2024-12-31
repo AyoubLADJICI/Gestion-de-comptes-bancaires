@@ -1,7 +1,3 @@
-# ============================
-# Makefile pour le Serveur TCP
-# ============================
-
 #Variables
 CC = gcc
 CFLAGS = -I.
