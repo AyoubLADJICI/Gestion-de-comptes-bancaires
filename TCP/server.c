@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #include "server.h"
+#include "client.h"
 
 static void init(void) {
     printf("✅ Initialisation du serveur...\n");
@@ -116,7 +117,7 @@ static void server_app(void) {
                   send_message_to_all_clients(clients, client, actual, buffer, 1);
                }else {
                   traiter_commande(&clients[i], comptes, 3, buffer);
-                  printf("📩 %s vient d'effectuer une operation dans notre banque ! \n", clients[i].name);
+                  //printf("📩 %s vient d'effectuer une operation dans notre banque ! \n", clients[i].name);
                   //printf("📩 Message reçu de %s : %s\n", clients[i].name, buffer);
                   /*la ligne suivante permet de diffuser le message à tous les clients connectés*/
                   /*on la commente pour ne pas diffuser les informations du compte aux autres clients*/
