@@ -63,15 +63,7 @@ Exemple : OPERATIONS Ayoub26 compte2 password2
 
 Voici les comptes disponibles dans cette banque :
 
-id_client :Ayoub7
-id_compte :compte1
-password  :password1
-
-id_client :Ayoub26
-id_compte :compte2
-password  :password2
-
-id_client :Ayoub93
-id_compte :compte3
-password  :password3
+- id_client : Ayoub7, id_compte : compte1, password : password1
+- id_client : Ayoub26, id_compte : compte2, password : password2
+- id_client : Ayoub93, id_compte : compte3, password : password3
 
