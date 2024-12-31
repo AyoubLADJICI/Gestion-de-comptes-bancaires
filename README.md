@@ -10,6 +10,7 @@ Ce projet est une application client-serveur permettant la gestion de comptes ba
 L'application est divisée en deux versions :
 
 TCP : Communication fiable et orientée connexion.
+
 UDP : Communication rapide mais sans garantie de livraison.
 
 ## ⚙️ Prérequis
