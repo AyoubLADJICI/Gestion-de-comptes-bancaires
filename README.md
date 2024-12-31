@@ -1,5 +1,5 @@
-##📚 Projet Client-Serveur TCP/UDP - Application de gestion de comptes bancaire
-###📝 Description du Projet
+## 📚 Projet Client-Serveur TCP/UDP - Application de gestion de comptes bancaire
+### 📝 Description du Projet
 Ce projet est une application client-serveur permettant la gestion de comptes bancaires via les protocoles TCP et UDP. Les utilisateurs peuvent effectuer les opérations suivantes :
 
 - AJOUT : Ajouter une somme d'argent à un compte.
@@ -12,11 +12,11 @@ L'application est divisée en deux versions :
 TCP : Communication fiable et orientée connexion.
 UDP : Communication rapide mais sans garantie de livraison.
 
-##⚙️ Prérequis
+## ⚙️ Prérequis
 - Système d'exploitation : Linux / Ubuntu ou bien un terminal Ubuntu si vous êtes sur Windows
 - Compilateur : GCC
 
-##🛠️ Instructions
+## 🛠️ Instructions
 
 - Etape 1 : Cloner le repository 
 ```bash
@@ -46,7 +46,7 @@ make
 ```bash
 ./client 127.0.0.1 "votre_nom"
 ```
-📝 Commandes Disponibles depuis le Client
+## 📝 Commandes Disponibles depuis le Client
 Après la connexion, le client peut utiliser les commandes suivantes :
 
 AJOUT <id_client> <id_compte> <password> <somme>
